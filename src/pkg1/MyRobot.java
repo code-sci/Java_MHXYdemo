@@ -13,7 +13,7 @@ public class MyRobot {
 	//参数定义
 	static int state = 0,t_0=0,t_1=0,t_2=0,t_3;	//状态变量
 	static Color c_pre1,c_pre2,c_pre3;	//状态检查辅助变量
-	static int n_gui = 6; //	当前抓第几只鬼变量,状态辅助变量
+	static int n_gui = 0; //	当前抓第几只鬼变量,状态辅助变量
 	public static void main(String args []) throws AWTException
 	{
 		Robot bush = new Robot();
@@ -78,7 +78,14 @@ public class MyRobot {
 				System.out.println("状态：静止持续"+t_0+"秒！");
 				
 					{//★自动抓鬼代码区;
-						if(t_0>=5)//静止持续超过5秒，则重新接受抓鬼任务
+						if(t_0==3)//弹窗时清理屏幕，防止误判
+						{
+							Method.press(bush, KeyEvent.VK_ESCAPE);
+							Method.await(bush, 0.2, 0.4);
+							Method.press(bush, KeyEvent.VK_ESCAPE);
+							Method.await(bush, 0.2, 0.4);
+						}
+						if(t_0>=8)//静止持续超过8秒，则重新接受抓鬼任务
 		        		{
 		        			t_0=0;
 		        			Method.task_gui(bush);
