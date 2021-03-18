@@ -11,6 +11,12 @@ public class Method {
 	//接受抓鬼任务函数
 	static void task_gui(Robot bush)
 	{
+		//清理屏幕
+		press(bush,KeyEvent.VK_ESCAPE);	
+		await(bush,0.5,0.6);
+		press(bush,KeyEvent.VK_ESCAPE);
+		await(bush,0.5,0.6);
+		
 		System.out.println("=======开始接受抓鬼任务！=======");
 		
 		click(bush,485,196,true);	//大地图
@@ -30,12 +36,13 @@ public class Method {
 		
 		press(bush,KeyEvent.VK_ESCAPE);	//清理屏幕
 		await(bush,0.5,0.6);
+		
 		press(bush,KeyEvent.VK_ESCAPE);
 			//抓鬼任务有时候位置不定
 		if(bush.getPixelColor(1455,338).equals(new Color(117,62,24)))
 			click(bush,1455,338,true);
 		else
-			click(bush,1455,417,true);
+			click(bush,1455,450,true);
 		await(bush,1,1.5);
 		System.out.println("=======抓鬼任务接受完毕！=======");
 		
@@ -121,6 +128,36 @@ public class Method {
 		robot.delay((int)v);
 		
 //		System.out.println("延时"+((int)(v*10))/10000.0+"秒；");
+	}
+	
+	//领取或冻结双倍点数,@times 当前第几只鬼
+	static void task_double(Robot robot, int times)
+	{
+		//清理屏幕
+		Method.press(robot,KeyEvent.VK_ESCAPE);
+    	Method.await(robot,0.5,0.6);
+    	Method.press(robot,KeyEvent.VK_ESCAPE);
+    	Method.await(robot,0.5,0.6);
+		
+    	Method.press2(robot,KeyEvent.VK_ALT,KeyEvent.VK_G);
+    	Method.await(robot,1,1.8);
+    	
+    	if(times==1)//冻结
+    	{
+    		Method.click(robot, 1040, 793, true);
+    		System.out.println("冻结双倍点数成功！");
+    	}else //领取
+    	{
+    		Method.click(robot, 1299, 793, true);
+    		Method.await(robot,1,1.8);	
+    		System.out.println("领取双倍点数成功！");
+    	}
+    	
+    	//清理屏幕
+    	Method.await(robot,1,1.3);
+    	Method.press(robot,KeyEvent.VK_ESCAPE);
+    	Method.await(robot,0.5,0.6);
+    	Method.press(robot,KeyEvent.VK_ESCAPE);
 	}
 	
 }
