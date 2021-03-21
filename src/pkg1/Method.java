@@ -19,7 +19,7 @@ public class Method {
 		
 		System.out.println("=======开始接受抓鬼任务！=======");
 		
-		click(bush,485,196,true);	//大地图
+		press2(bush,KeyEvent.VK_ALT,KeyEvent.VK_M);	//大地图
 		await(bush,1,1.5);	
 		
 		click(bush,926,600,true);	//大地图---长安城
