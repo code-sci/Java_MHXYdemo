@@ -16,16 +16,18 @@ public class Queue {
 		 timer.schedule(new TimerTask() {
 		        @Override
 		        public void run() {
-		        Method.click(bush,804,444,true);	//人物头像
-		        Method.await(bush,0.3, 0.4);
+		        Method.click(bush,804,444,true);	//人物头像一号位
+//		        Method.click(bush,1011,436,true);	//人物头像二号位
+		        
+		        Method.await(bush,0.4, 0.5);
 		        if(c.equals(bush.getPixelColor(1068, 492))){//“满”字
 		        	Method.click(bush, 963, 665, true);//[退出排队]
-		        	Method.await(bush,0.3, 0.4);
+		        	Method.await(bush,0.4, 0.5);
 		        	Method.click(bush, 1056, 592, true);//[确定]
 		        }
 		        else
-		        {	this.cancel();
-		        
+		        {	System.exit(0);
+		        	this.cancel();
 		        }
 		        }
 		      }, 1000, 2000);
