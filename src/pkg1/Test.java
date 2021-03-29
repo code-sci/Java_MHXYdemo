@@ -8,5 +8,7 @@ public class Test {
 	{
 		Robot robot = new Robot();
 		Method.task_gui(robot);
+	
 	}
 }
+	

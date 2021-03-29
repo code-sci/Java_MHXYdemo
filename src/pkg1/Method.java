@@ -8,55 +8,12 @@ import java.util.Random;
 
 public class Method {
 	
-	//接受抓鬼任务函数
-	static void task_gui(Robot bush)
-	{
-		CheckThread ct = new CheckThread();
-		//清理屏幕
-		press(bush,KeyEvent.VK_ESCAPE);	
-		await(bush,0.5,0.6);
-		press(bush,KeyEvent.VK_ESCAPE);
-		await(bush,0.5,0.6);
-		
-		
-		System.out.println("=======开始接受抓鬼任务！=======");
-		
-		press2(bush,KeyEvent.VK_ALT,KeyEvent.VK_M);	//大地图
-		ct.check(new PBean(1398,277,231,68,44),true);//大地图关闭按钮
-		
-		click(bush,926,600,true);	//大地图---长安城
-		ct.check(new PBean(1398,277,231,68,44),false);//大地图关闭按钮
-		
-		press(bush,KeyEvent.VK_TAB);	//按键---小地图
-		ct.check(new PBean(1341,301,191,21,0),true);//小地图关闭按钮
-		
-		click(bush,762,598,true);	//小地图---钟馗
-		ct.check(new PBean(1287,521,85,57,35),true);//抓鬼任务“鬼”字
-
-		click(bush,1219,515,true);	//点击抓鬼任务
-		await(bush,1,1.5);	
-		
-		press(bush,KeyEvent.VK_ESCAPE);	//清理屏幕
-		await(bush,0.5,0.6);
-		
-		press(bush,KeyEvent.VK_ESCAPE);
-			//抓鬼任务有时候位置不定
-		if(bush.getPixelColor(1455,338).equals(new Color(117,62,24)))
-			click(bush,1455,338,true);
-		else
-			click(bush,1455,450,true);
-		await(bush,1,1.5);
-		System.out.println("=======抓鬼任务接受完毕！=======");
-		
-	}
-
-	
 	//点击函数（第三个参数为是否进行坐标随机偏移）
 	static void  click(Robot robot,int x , int y,boolean f)
 	{
 		if(f){//对点击坐标进行小偏移
-			x = x+(new Random().nextInt(6));
-			y = y+(new Random().nextInt(6));
+			x = x-6+(new Random().nextInt(12));
+			y = y-6+(new Random().nextInt(12));
 		
 		
 		robot.mouseMove(x, y);
@@ -109,7 +66,7 @@ public class Method {
 //		System.out.println("按下"+KeyEvent.getKeyText(k1)+"+"+KeyEvent.getKeyText(k2)+"键；");
 	}
 	
-	//拖动函数
+	//拖动函数，涉及到拖动速度问题，暂不推荐使用；
 	static void drag(Robot robot,int x1,int y1,int x2, int y2)
 	{
 		robot.mouseMove(x1, y1);
@@ -143,7 +100,7 @@ public class Method {
     	Method.await(robot,0.5,0.6);
 		
     	Method.press2(robot,KeyEvent.VK_ALT,KeyEvent.VK_G);
-    	ct.check(new PBean(1400,264,207,0,0),true);//挂机界面关闭按钮
+    	ct.check(new PBean(1400,264,207,0,0),true,3000);//挂机界面关闭按钮
     	
     	if(!flag)//冻结
     	{
@@ -162,5 +119,48 @@ public class Method {
     	Method.await(robot,0.5,0.6);
     	Method.press(robot,KeyEvent.VK_ESCAPE);
 	}
+	
+	//接受抓鬼任务函数
+	static void task_gui(Robot bush)
+	{
+		CheckThread ct = new CheckThread();
+		//清理屏幕
+		press(bush,KeyEvent.VK_ESCAPE);	
+		await(bush,0.5,0.6);
+		press(bush,KeyEvent.VK_ESCAPE);
+		await(bush,0.5,0.6);
+		
+		
+		System.out.println("=======开始接受抓鬼任务！=======");
+		
+		press2(bush,KeyEvent.VK_ALT,KeyEvent.VK_M);	//大地图
+		ct.check(new PBean(1398,277,231,68,44),true,3000);//大地图关闭按钮
+		
+		click(bush,926,600,true);	//大地图---长安城
+		ct.check(new PBean(1398,277,231,68,44),false,3000);//大地图关闭按钮
+		
+		press(bush,KeyEvent.VK_TAB);	//按键---小地图
+		ct.check(new PBean(1341,301,191,21,0),true,3000);//小地图关闭按钮
+		
+		click(bush,762,598,true);	//小地图---钟馗
+		ct.check(new PBean(1287,521,85,57,35),true,8000);//抓鬼任务“鬼”字
+		
+		click(bush,1219,515,true);	//点击抓鬼任务
+		await(bush,1,1.5);	
+		
+		press(bush,KeyEvent.VK_ESCAPE);	//清理屏幕
+		await(bush,0.5,0.6);
+		
+		press(bush,KeyEvent.VK_ESCAPE);
+		//抓鬼任务有时候位置不定
+		if(bush.getPixelColor(1455,338).equals(new Color(117,62,24)))
+			click(bush,1455,338,true);
+		else
+			click(bush,1455,450,true);
+		await(bush,1,1.5);
+		System.out.println("=======抓鬼任务接受完毕！=======");
+		
+	}
+	
 	
 }
