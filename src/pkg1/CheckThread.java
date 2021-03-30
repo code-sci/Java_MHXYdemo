@@ -15,14 +15,9 @@ class CheckThread extends Thread
 	public void run() {
 	  try 
 	  {
-		long startTime = System.currentTimeMillis();
 		while(flag^(this.pb.c.equals(new Robot().getPixelColor(this.pb.getX(), this.pb.getY()))))
 		{
 			Thread.sleep((int)(1000*Math.random()));//每隔一定时间检测一下条件是否满足
-			long endTime = System.currentTimeMillis();
-			long costTime = endTime - startTime;
-			System.out.println(costTime);
-			
 		}
 	   } catch (InterruptedException | AWTException e) {e.printStackTrace();}
 	}
