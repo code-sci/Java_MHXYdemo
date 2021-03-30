@@ -18,8 +18,8 @@ public class Queue {
 		 timer.schedule(new TimerTask() {
 		        @Override
 		        public void run() {
-//		        Method.click(bush,804,444,true);	//人物头像一号位
-		        Method.click(bush,1011,436,true);	//人物头像二号位
+		        Method.click(bush,804,444,true);	//人物头像一号位
+//		        Method.click(bush,1011,436,true);	//人物头像二号位
 		        
 		        ct.check(new PBean(1068, 492,225,39,19),true,500);//
 		        

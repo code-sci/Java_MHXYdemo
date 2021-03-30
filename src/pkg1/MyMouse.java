@@ -17,7 +17,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.Color;
  
-public class MouseXY extends JFrame {
+public class MyMouse extends JFrame {
  
   /**
 	 * 
@@ -37,7 +37,7 @@ private final JPanel contentPanel = new JPanel();
   
   public static void main(String[] args) {
     try {
-      MouseXY info_frame = new MouseXY();
+      MyMouse info_frame = new MyMouse();
       info_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       info_frame.setVisible(true);
       info_frame.setAlwaysOnTop(true);
@@ -101,7 +101,7 @@ private final JPanel contentPanel = new JPanel();
  }
   
 	
-  public MouseXY() {
+  public MyMouse() {
     setTitle("Êó±ê×´Ì¬");
     setBounds(1690, 10, 235, 200);
     getContentPane().setLayout(new BorderLayout());

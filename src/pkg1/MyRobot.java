@@ -79,8 +79,8 @@ public class MyRobot {
 					MyRobot.n_gui++;
 					System.out.println("当前第"+n_gui+"只鬼！");
 					//调用领双函数；
-					if(double_gui!=1&&n_gui==1) Method.task_double(bush, n_gui,false);
-					if(n_gui==double_gui) Method.task_double(bush,n_gui,true);
+					if(double_gui!=1&&n_gui==1) Task.getDouble(bush, n_gui,false);
+					if(n_gui==double_gui) Task.getDouble(bush,n_gui,true);
 					}
 					
 				}else if(state ==0 &&s_0)
@@ -99,7 +99,7 @@ public class MyRobot {
 						if(t_0>=8)//静止持续超过8秒，则重新接受抓鬼任务
 		        		{
 		        			t_0=0;
-		        			Method.task_gui(bush);
+		        			Task.zhuaGui(bush);
 		        			MyRobot.n_gui = 0;//第n_gui只鬼清零
 		        		}
 					}
