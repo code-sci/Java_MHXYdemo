@@ -56,6 +56,9 @@ public class Task {
 	static void getDouble(Robot robot, int times,boolean flag)
 	{
 		CheckThread ct = new CheckThread();
+		//活动窗口修正
+		Method.click2(robot, 972, 141);//双击击游戏上边框
+		Method.await(robot, 1, 2);
 		//清理屏幕
 		Method.press(robot,KeyEvent.VK_ESCAPE);
     	Method.await(robot,0.5,0.6);
