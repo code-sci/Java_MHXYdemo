@@ -86,7 +86,7 @@ public class MyRobot {
 						if(t_0==5)
 						{
 							Method.click2(bush, 972, 141);//双击击游戏上边框
-							Method.await(bush, 0.5, 1);
+							Method.await(bush, 1, 2);
 							Task.clearScreen(bush);
 						}
 						if(t_0>=8)//静止持续超过8秒，则重新接受抓鬼任务
