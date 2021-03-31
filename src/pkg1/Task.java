@@ -142,15 +142,10 @@ public class Task {
 		ct.check(new PBean(609,265,192,187,180), true, 4000);
 		
 		Method.click(robot,609,265,true);//[输入框]
+		Method.await(robot, 0.5, 0.8);
 		
-		Method.await(robot, 0.5, 0.8);
-		if(k>=10)//按下当前抓鬼数量对应按键
-		{
-			Method.press(robot,KeyEvent.VK_0+(k/10));
-			Method.await(robot, 0.5, 0.8);
-		}
-		Method.press(robot, KeyEvent.VK_0+(k%10));
-		Method.await(robot, 0.5, 0.8);
+		Task.typeK(robot, k);
+		
 		
 		Method.press(robot, KeyEvent.VK_ENTER);//发送
 		
@@ -158,6 +153,19 @@ public class Task {
 		Method.click(robot,491,208,true);//关闭[输入框]
 		
 		
+	}
+	//发送抓鬼数量 的辅助递归函数
+	static void typeK(Robot robot,int k)
+	{
+		if(k>0)
+		{	
+			int b = k/10;//每次去掉一个低位
+			Task.typeK(robot,b);//进入低位的递归
+//			System.out.println(k%10);//输出高位的余数
+			Method.press(robot,KeyEvent.VK_0+(k%10));
+			Method.await(robot, 0.5, 0.8);
+		}else
+			return;
 	}
 	
 	

@@ -7,7 +7,7 @@ public class Test {
 	public static void main (String args[]) throws AWTException
 	{
 		Robot robot = new Robot();
-		Task.sendCount(robot, 10);
+		Task.sendCount(robot, 321);
 	
 	}
 }
