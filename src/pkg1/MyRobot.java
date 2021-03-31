@@ -15,10 +15,12 @@ public class MyRobot {
 	static Color c_pre1,c_pre2,c_pre3;	//状态检查辅助变量
 	static int n_gui = 0; //	当前抓第几只鬼变量,状态辅助变量
 	static int double_gui= 8;	//抓鬼开双轮数；
+	static int n_count = 0;//总共抓鬼数量
 	public static void main(String args []) throws AWTException
 	{
 		Robot bush = new Robot();
 		Timer timer = new Timer();
+		CheckThread ct = new CheckThread();
 		 c_pre1 = bush.getPixelColor(1131,617);
 		 c_pre2 = bush.getPixelColor(741,328);
 		 c_pre3 = bush.getPixelColor(1085,336);
@@ -34,8 +36,17 @@ public class MyRobot {
 		
 		while((double_gui = reader.nextInt())<=0)
 		{
-			System.out.println("请输入一个大于一的数！");
+			System.out.println("请输入一个大于0的数！");
 		}
+		
+		System.out.println("请输入当前抓鬼轮次：（默认为1）");
+		
+		while((n_gui = reader.nextInt())<=0)
+		{
+			System.out.println("请输入一个大于0的数！");
+		}
+		n_gui--;//因为会在进入战斗界面+1；
+		
 		reader.close();
 		System.out.println("设置成功！将在每轮第"+double_gui+"只鬼时开双；");
 		//全局状态监测
@@ -70,7 +81,12 @@ public class MyRobot {
 					{//★自动领双代码区；
 					//判断是否移动后抓鬼，而不是因为屏幕变化导致的抓鬼错判
 					MyRobot.n_gui++;
+					MyRobot.n_count++;
 					System.out.println("当前第"+n_gui+"只鬼！");
+					
+					Method.await(bush, 1, 2);
+					ct.check(new PBean(543,680,240,230,217),true,3000);
+					Task.sendCount(bush, n_count);//发送抓鬼数量
 					//调用领双函数；
 					if(double_gui!=1&&n_gui==1) Task.getDouble(bush, n_gui,false);
 					if(n_gui==double_gui) Task.getDouble(bush,n_gui,true);

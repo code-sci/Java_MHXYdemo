@@ -9,6 +9,10 @@ public class Task {
 	//弹窗异常处理
 	static void clearScreen(Robot robot)
 	{
+		//界面-挂机界面
+		if(new Color(207,0,0).equals(robot.getPixelColor(1400,264)))
+			Method.click(robot, 1400, 264, true);
+		
 		//弹窗-新服活动
 		 if(robot.getPixelColor(1404,281).getRed()==185)
 	         Method.click(robot,1404,281,true);//[关闭]
@@ -127,8 +131,34 @@ public class Task {
 		System.out.println("=======[手动]抓鬼任务接受完毕！=======");
 		
 	}
-
 	
+	//抓鬼数量发送函数
+	static void sendCount(Robot robot,int k)
+	{
+		System.out.println("===发送抓鬼总数:"+MyRobot.n_count+"===");
+		CheckThread ct = new CheckThread();
+		
+		Method.click(robot, 563,707,true);//左下角[人物头像]
+		ct.check(new PBean(609,265,192,187,180), true, 4000);
+		
+		Method.click(robot,609,265,true);//[输入框]
+		
+		Method.await(robot, 0.5, 0.8);
+		if(k>=10)//按下当前抓鬼数量对应按键
+		{
+			Method.press(robot,KeyEvent.VK_0+(k/10));
+			Method.await(robot, 0.5, 0.8);
+		}
+		Method.press(robot, KeyEvent.VK_0+(k%10));
+		Method.await(robot, 0.5, 0.8);
+		
+		Method.press(robot, KeyEvent.VK_ENTER);//发送
+		
+		Method.await(robot, 0.5, 0.8);
+		Method.click(robot,491,208,true);//关闭[输入框]
+		
+		
+	}
 	
 	
 }
