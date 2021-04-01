@@ -51,9 +51,9 @@ public class MyRobot {
 
 		System.out.println("是否发送抓鬼总数：(1发0不发)");
 		
-		while((flag_send = reader.nextInt())<=0)
+		while((flag_send = reader.nextInt())<0)
 		{
-			System.out.println("请输入一个大于0的数！");
+			System.out.println("请输入0或1");
 		}
 		reader.close();
 		System.out.println("设置成功！将在每轮第"+double_gui+"只鬼时开双；");
