@@ -16,6 +16,7 @@ public class MyRobot {
 	static int n_gui = 0; //	当前抓第几只鬼变量,状态辅助变量
 	static int double_gui= 8;	//抓鬼开双轮数；
 	static int n_count = 0;//总共抓鬼数量
+	static int flag_send;
 	public static void main(String args []) throws AWTException
 	{
 		Robot bush = new Robot();
@@ -47,6 +48,13 @@ public class MyRobot {
 		}
 		n_gui--;//因为会在进入战斗界面+1；
 		
+
+		System.out.println("是否发送抓鬼总数：(1发0不发)");
+		
+		while((flag_send = reader.nextInt())<=0)
+		{
+			System.out.println("请输入一个大于0的数！");
+		}
 		reader.close();
 		System.out.println("设置成功！将在每轮第"+double_gui+"只鬼时开双；");
 		//全局状态监测
@@ -84,9 +92,11 @@ public class MyRobot {
 					MyRobot.n_count++;
 					System.out.println("当前第"+n_gui+"只鬼！");
 					
+					if(flag_send == 1){//发送抓鬼数量
 					Method.await(bush, 1, 2);
 					ct.check(new PBean(543,680,240,230,217),true,3000);
-					Task.sendCount(bush, n_count);//发送抓鬼数量
+					Task.sendCount(bush, n_count);
+					}
 					//调用领双函数；
 					if(double_gui!=1&&n_gui==1) Task.getDouble(bush, n_gui,false);
 					if(n_gui==double_gui) Task.getDouble(bush,n_gui,true);
