@@ -3,6 +3,7 @@ package pkg1;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Robot;
+import java.util.Calendar;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,6 +22,8 @@ public class MyRobot {
 	{
 		Robot bush = new Robot();
 		Timer timer = new Timer();
+		int stop_h;
+		int stop_m;
 		CheckThread ct = new CheckThread();
 		 c_pre1 = bush.getPixelColor(1131,617);
 		 c_pre2 = bush.getPixelColor(741,328);
@@ -48,19 +51,38 @@ public class MyRobot {
 		}
 		n_gui--;//因为会在进入战斗界面+1；
 		
-
+		
 		System.out.println("是否发送抓鬼总数：(1发0不发)");
 		
 		while((flag_send = reader.nextInt())<0)
 		{
 			System.out.println("请输入0或1");
 		}
+		
+		System.out.println("请输入程序停止时间：例如(7:30)符号为英文");
+		
+		String stop_time = reader.next();
+		/*Java中字符串序号从0开始，indexof()返回字符出现的位置；
+		 * substring(A,B)返回A位置到B位置之前一位的子串；
+		*/
+		stop_h = Integer.parseInt(stop_time.substring(0,stop_time.indexOf(':')));
+		stop_m = Integer.parseInt(stop_time.substring(stop_time.indexOf(':')+1,stop_time.length()));
+		
 		reader.close();
-		System.out.println("设置成功！将在每轮第"+double_gui+"只鬼时开双；");
+		System.out.println("设置成功！将在每轮第"+double_gui+"只鬼时开双,脚本将于"+stop_h+":"+stop_m+"停止运行。");
 		//全局状态监测
 		TimerTask state_control = (new TimerTask(){
 			@Override
-	        public void run() {//判断坐标点	是否变化，三点有一点是不变的则是静止
+	        public void run() {
+				//判断时间
+				if((stop_h == Calendar.getInstance().get(Calendar.HOUR))&&(stop_m == Calendar.getInstance().get(Calendar.MINUTE)))
+				{
+					System.out.println("程序即将停止！");
+					Method.await(bush, 3, 5);
+					System.exit(0);
+				}
+				
+				//判断坐标点	是否变化，三点有一点是不变的则是静止
 				boolean s_3 =(new Color(155,103,53).equals(bush.getPixelColor(715,234)));
 				boolean s_0 = ((c_pre1.equals(bush.getPixelColor(1131,617))||c_pre2.equals(bush.getPixelColor(741,328))||
 						c_pre3.equals(bush.getPixelColor(1085,336))))&&(!s_3);
