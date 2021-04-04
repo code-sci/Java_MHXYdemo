@@ -2,6 +2,8 @@ package pkg1;
 
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 public class Method {
@@ -87,4 +89,15 @@ public class Method {
 //		System.out.println("延时"+((int)(v*10))/10000.0+"秒；");
 	}
 	
+	
+	//#数据记录函数
+	static  void writeToFile(String fileName,String str)
+	  {
+	   try {
+	      //如果存在txt文件则直接往txt中追加字符串
+	      FileWriter writer=new FileWriter(fileName,true);
+	      writer.write(str+"\n");
+	       writer.close();
+	   } catch (IOException e) {e.printStackTrace();}
+	 }
 }

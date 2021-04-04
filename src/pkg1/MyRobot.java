@@ -8,16 +8,16 @@ import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 import pkg1.Method;
-//调用任何方法时要确认是否进行清理屏幕!
+//进行任何操作前都应确认是否进行清理屏幕!
 
 public class MyRobot {
-	//参数定义
+	//#参数定义
 	static int state = 0,t_0=0,t_1=0,t_2=0,t_3;	//状态变量
 	static Color c_pre1,c_pre2,c_pre3;	//状态检查辅助变量
 	static int n_gui = 0; //	当前抓第几只鬼变量,状态辅助变量
 	static int double_gui= 8;	//抓鬼开双轮数；
-	static int n_count = 0;//总共抓鬼数量
-	static int flag_send;
+	static int n_count = 0;//总共抓鬼数量；
+	static int flag_send;	//是否发送抓鬼数量信息；
 	public static void main(String args []) throws AWTException
 	{
 		Robot bush = new Robot();
@@ -59,7 +59,7 @@ public class MyRobot {
 			System.out.println("请输入0或1");
 		}
 		
-		System.out.println("请输入程序停止时间：例如(7:30)符号为英文");
+		System.out.println("请输入程序停止时间：例如\"7:30\"");
 		
 		String stop_time = reader.next();
 		/*Java中字符串序号从0开始，indexof()返回字符出现的位置；
@@ -70,16 +70,17 @@ public class MyRobot {
 		
 		reader.close();
 		System.out.println("设置成功！将在每轮第"+double_gui+"只鬼时开双,脚本将于"+stop_h+":"+stop_m+"停止运行。");
-		//全局状态监测
+		
+		//#全局状态监测
 		TimerTask state_control = (new TimerTask(){
 			@Override
 	        public void run() {
 				//判断时间
 				if((stop_h == Calendar.getInstance().get(Calendar.HOUR))&&(stop_m == Calendar.getInstance().get(Calendar.MINUTE)))
 				{
-					System.out.println("程序即将停止！");
+					System.out.println("抓鬼脚本即将停止，本轮抓鬼结束后将进入挂机场景；");
 					Method.await(bush, 3, 5);
-					System.exit(0);
+					t_0 =20;//通过设置静止时间为20秒，从而实现进入挂机条件；
 				}
 				
 				//判断坐标点	是否变化，三点有一点是不变的则是静止
@@ -129,17 +130,21 @@ public class MyRobot {
 				t_0++;
 				System.out.println("状态：静止持续"+t_0+"秒！");
 				
-					{//★自动抓鬼代码区;
+					{//静止处理代码区;
 						//针对未处理的弹窗清理屏幕，并且修正游戏窗口为活动窗口，防止误判
-						if(t_0==5)
+						
+						if(t_0>=20)//静止持续超过20秒，进行挂机场景；
+						{
+							Task.guaJi(bush);
+						}
+						else if(t_0==5)//静止持续5秒，清理屏幕或调用抓鬼；
 						{
 							Method.click2(bush, 972, 141);//双击击游戏上边框
-							Method.await(bush, 1, 2);
+							Method.await(bush, 1, 1.5);
 							Task.clearScreen(bush);
 						}
-						if(t_0>=8)//静止持续超过8秒，则重新接受抓鬼任务
+						else if(t_0==8)//静止持续8秒，则重新接受抓鬼任务
 		        		{
-							t_0 = 0;
 		        			Task.zhuaGui(bush);
 		        			MyRobot.n_gui = 0;//第n_gui只鬼清零
 		        		}
@@ -167,19 +172,20 @@ public class MyRobot {
 					state = 1;
 					System.out.println("状态变更：移动！=====");
 				}
+			//更新辅助点信息；
 			c_pre1 = bush.getPixelColor(1131,617);
 			c_pre2 = bush.getPixelColor(741,328);
 			c_pre3 = bush.getPixelColor(1085,336);
 			
 			}
 		});
+
+		
 		
 		//=============★脚本主流程★=========================
 		
 		//=====全局状态监测，利用timer单独作为全局计时器对象
 		timer.schedule(state_control, 2000,1000);
 		
-		
-//		System.exit(0);//结束脚本运行
-}
+	}
 }

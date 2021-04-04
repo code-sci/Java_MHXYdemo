@@ -5,8 +5,41 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
 public class Task {
+	//
 	
-	//弹窗异常处理
+	
+	
+	//#进入挂机场景挂机
+	static void guaJi(Robot robot)
+	{
+		CheckThread ct = new CheckThread();
+		System.out.println("=======开始进入挂机场景=======");
+		 if(new Color(154,110,66).equals(robot.getPixelColor(1108,519)))//判断弹窗字
+		 {
+			 Method.click(robot, 855,588,true);//[取消]
+			 ct.check(new PBean(1108,519,154,110,66), false, 3000);//等待【弹窗】关闭
+		 }
+		 //打开挂机界面
+		 Method.press2(robot, KeyEvent.VK_ALT, KeyEvent.VK_G);
+		 ct.check(new PBean(1400,264,207,0,0),true,5000);//等待【挂机界面关闭按钮】出现
+		 
+		 //冻结已领取的双倍点数
+		 Method.click(robot, 1040, 793, true);
+ 		 System.out.println("冻结双倍点数成功！");
+ 		
+ 		//点击挂机场景跳转
+		 Method.click(robot, 845,320, true);
+		 
+		 //点击原地挂机（以防万一）
+		 
+		 
+		 System.out.println("=======进行场景挂机，脚本终止运行！=======");
+		//终止脚本运行；
+		 System.exit(0);
+	}
+	
+	
+	//#弹窗异常处理
 	static void clearScreen(Robot robot)
 	{
 		//界面-挂机界面
@@ -56,7 +89,7 @@ public class Task {
 	    	Method.press(robot,KeyEvent.VK_ESCAPE);
 	}
 	
-	//领取或冻结双倍点数,@times 当前第几只鬼
+	//#领取或冻结双倍点数,@times 当前第几只鬼
 	static void getDouble(Robot robot, int times,boolean flag)
 	{
 		CheckThread ct = new CheckThread();
@@ -90,7 +123,7 @@ public class Task {
     	Method.press(robot,KeyEvent.VK_ESCAPE);
 	}
 	
-	//接受抓鬼任务函数
+	//#接受抓鬼任务函数
 	static void zhuaGui(Robot bush)
 	{
 		CheckThread ct = new CheckThread();
@@ -132,7 +165,7 @@ public class Task {
 		
 	}
 	
-	//抓鬼数量发送函数
+	//#抓鬼数量发送函数
 	static void sendCount(Robot robot,int k)
 	{
 		System.out.println("===发送抓鬼总数:"+MyRobot.n_count+"===");
@@ -154,7 +187,8 @@ public class Task {
 		
 		
 	}
-	//发送抓鬼数量 的辅助递归函数
+	
+	//#发送抓鬼数量 的辅助递归函数
 	static void typeK(Robot robot,int k)
 	{
 		if(k>0)

@@ -57,7 +57,7 @@ private final JPanel contentPanel = new JPanel();
     	                       str = str+"["+c.getRed()+","+c.getGreen()+","+c.getBlue()+"] ";
     	                       str = str+(value_text.getText());
     	                       
-    	                        writeToFile(str);
+    	                        Method.writeToFile(fileName,str);
     	                 
     	                    System.out.println(" 记录成功："+str);
     	                    value_text.setText("");
@@ -88,17 +88,6 @@ private final JPanel contentPanel = new JPanel();
     }
   }
  
-  
-	//坐标记录函数
-	static  void writeToFile(String str)
-  {
-   try {
-      //如果存在txt文件则直接往kuka.txt中追加字符串
-      FileWriter writer=new FileWriter(fileName,true);
-      writer.write(str+"\n");
-       writer.close();
-   } catch (IOException e) {e.printStackTrace();}
- }
   
 	
   public MyMouse() {
