@@ -3,10 +3,25 @@ package pkg1;
 import java.awt.Color;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 
 public class Task {
-	//
-	
+	/*#记录统计本次脚本数据：
+	 * @抓鬼总数；
+	 * @开双抓鬼数量；
+	 * @消耗双倍点数；
+	 * @抓鬼平均耗时；
+	*/
+	static void noteStatis()
+	{
+		float avg_time = (float)MyRobot.db.getSum_Time()/MyRobot.db.getSum_Gui();//保留小数处理；
+		avg_time = Float.parseFloat(new DecimalFormat("0.00").format(avg_time));
+		String fileName="F:\\桌面\\position.txt";
+		Method.writeToFile(fileName,"#本次脚本统计数据：(截止"+MyRobot.db.getStop_h()+":"+MyRobot.db.getStop_m()+"的最后一轮鬼)");
+		Method.writeToFile(fileName,"抓鬼总数："+MyRobot.db.getSum_Gui());
+		Method.writeToFile(fileName,"消耗双倍点数："+MyRobot.db.getCost_Double());
+		Method.writeToFile(fileName,"抓鬼平均耗时："+avg_time+"s(仅供参考)");
+	}
 	
 	
 	//#进入挂机场景挂机
@@ -14,25 +29,47 @@ public class Task {
 	{
 		CheckThread ct = new CheckThread();
 		System.out.println("=======开始进入挂机场景=======");
-		 if(new Color(154,110,66).equals(robot.getPixelColor(1108,519)))//判断弹窗字
+		 if(new Color(154,110,66).equals(robot.getPixelColor(1108,519)))//判断继续抓鬼弹窗字
 		 {
 			 Method.click(robot, 855,588,true);//[取消]
 			 ct.check(new PBean(1108,519,154,110,66), false, 3000);//等待【弹窗】关闭
 		 }
 		 //打开挂机界面
+		 Method.await(robot, 0.5, 1);
 		 Method.press2(robot, KeyEvent.VK_ALT, KeyEvent.VK_G);
 		 ct.check(new PBean(1400,264,207,0,0),true,5000);//等待【挂机界面关闭按钮】出现
 		 
+		 Method.await(robot, 0.5, 1);
 		 //冻结已领取的双倍点数
 		 Method.click(robot, 1040, 793, true);
  		 System.out.println("冻结双倍点数成功！");
  		
+ 		Method.await(robot, 0.5, 1);
+ 		 //检测是否打开自动战斗
+ 		 if(new Color(206,166,112).equals(robot.getPixelColor(901,717)))
+ 		 {
+ 			 Method.await(robot, 0.5, 0.8);
+ 			 Method.click(robot, 901, 717, true);
+ 			 System.out.println("打开自动战斗成功！");
+ 		 }
+ 		 
+ 		Method.await(robot, 0.5, 1);
  		//点击挂机场景跳转
 		 Method.click(robot, 845,320, true);
+		 ct.check(new PBean(1400,264,207,0,0),false,5000);//等待【挂机界面关闭按钮】出现
 		 
+		 
+		 Method.await(robot, 0.5, 1);
 		 //点击原地挂机（以防万一）
+		 Method.press2(robot, KeyEvent.VK_ALT, KeyEvent.VK_G);
+		 ct.check(new PBean(1400,264,207,0,0),true,5000);//等待【挂机界面关闭按钮】出现
+		 Method.click(robot, 660, 717, true);
 		 
+		 Method.await(robot, 0.5, 1);
+		 System.out.println("脚本数据统计中...");
+		 Task.noteStatis();
 		 
+		 Method.await(robot, 0.5, 1);
 		 System.out.println("=======进行场景挂机，脚本终止运行！=======");
 		//终止脚本运行；
 		 System.exit(0);
@@ -79,7 +116,7 @@ public class Task {
 				Method.await(robot,1,1.5);
 				System.out.println("=======[弹窗]接收抓鬼任务完毕！=======");
 				
-				MyRobot.n_gui = 0;//第n_gui只鬼清零
+				 MyRobot.db.setN_Gui(0);//第n_gui只鬼清零
 		 }
 		 
 		 	//清理屏幕
