@@ -205,7 +205,7 @@ public class Task {
 	//#抓鬼数量发送函数
 	static void sendCount(Robot robot,int k)
 	{
-		System.out.println("===发送抓鬼总数:"+MyRobot.n_count+"===");
+		System.out.println("===发送抓鬼总数:"+MyRobot.db.getSum_Gui()+"===");
 		CheckThread ct = new CheckThread();
 		
 		Method.click(robot, 563,707,true);//左下角[人物头像]

@@ -15,18 +15,18 @@ public class MyRobot {
 	static DataBean db = new DataBean();
 	static int state = 0,t_0=0,t_1=0,t_2=0,t_3;	//状态变量
 	static Color c_pre1,c_pre2,c_pre3;	//状态检查辅助变量
-	static int double_gui= 8;	//抓鬼开双轮数；
-	static int n_count = 0;//总共抓鬼数量；
-	static int flag_send;	//是否发送抓鬼数量信息；
 	public static void main(String args []) throws AWTException
 	{
+		//主要对象初始化；
 		Robot bush = new Robot();
 		Timer timer = new Timer();
-		//统计数据初始化
+		CheckThread ct = new CheckThread();
+		Scanner reader = new Scanner(System.in);
+		
+		//统计数据初始化；
 		db.setCost_Double(0);
 		db.setSum_Gui(-1);//跳过第一只鬼，因为抓鬼时间不准确
 		db.setSum_Time(0);
-		CheckThread ct = new CheckThread();
 		 c_pre1 = bush.getPixelColor(1131,617);
 		 c_pre2 = bush.getPixelColor(741,328);
 		 c_pre3 = bush.getPixelColor(1085,336);
@@ -36,27 +36,19 @@ public class MyRobot {
 		  * 每次进入战斗时n_gui加一，并检查当前n_gui是否大于需要抓鬼的轮数，
 		  * 如最后两轮开双，则在n_gui==8时调用领双函数。
 		 */
-		Scanner reader = new Scanner(System.in);
 		
 		System.out.println("请输入抓鬼开双轮次：（默认为8）");
 		
-		while((double_gui = reader.nextInt())<=0)
-		{
-			System.out.println("请输入一个大于0的数！");
-		}
+		db.setStartDouble(reader.nextInt());
 		
 		System.out.println("请输入当前抓鬼轮次：（默认为1）");
 		
 		db.setN_Gui(reader.nextInt()-1);
-		//因为会在进入战斗界面+1；
-		
+		//减一因为会在进入战斗界面+1；
 		
 		System.out.println("是否发送抓鬼总数：(1发0不发)");
 		
-		while((flag_send = reader.nextInt())<0)
-		{
-			System.out.println("请输入0或1");
-		}
+		db.setFlagSend(reader.nextInt()==1?true:false);
 		
 		System.out.println("请输入程序停止时间：例如\"7:30\"");
 		
@@ -68,7 +60,7 @@ public class MyRobot {
 		db.setStop_m(Integer.parseInt(stop_time.substring(stop_time.indexOf(':')+1,stop_time.length())));
 		
 		reader.close();
-		System.out.println("设置成功！将在每轮第"+double_gui+"只鬼时开双,脚本将于"+db.getStop_h()+":"+db.getStop_m()+"停止运行。");
+		System.out.println("设置成功！将在每轮第"+db.getStartDouble()+"只鬼时开双,脚本将于"+db.getStop_h()+":"+db.getStop_m()+"停止运行。");
 		
 		//#抓鬼结束
 		TimerTask turnToGuaji = (new TimerTask(){
@@ -103,7 +95,7 @@ public class MyRobot {
 					{//#数据统计代码区
 					db.setN_Gui(db.getN_Gui()+1);
 					db.setSum_Gui(db.getSum_Gui()+1);
-					if(db.getN_Gui()>=double_gui)//记录双倍点数消耗
+					if(db.getN_Gui()>=db.getStartDouble())//记录双倍点数消耗
 						db.setCost_Double(db.getCost_Double()+4);
 					}
 					
@@ -111,14 +103,14 @@ public class MyRobot {
 					//判断是否移动后抓鬼，而不是因为屏幕变化导致的抓鬼错判
 					System.out.println("当前第"+db.getN_Gui()+"只鬼！");
 					
-					if(flag_send == 1){//发送抓鬼数量
+					if(db.isFlagSend()){//发送抓鬼数量
 					Method.await(bush, 1, 2);
 					ct.check(new PBean(543,680,240,230,217),true,3000);
 					Task.sendCount(bush, db.getSum_Gui());
 					}
 					//调用领双函数；
-					if(double_gui!=1&&db.getN_Gui()==1) Task.getDouble(bush, db.getN_Gui(),false);
-					if(db.getN_Gui()==double_gui) Task.getDouble(bush,db.getN_Gui(),true);
+					if(db.getStartDouble()!=1&&db.getN_Gui()==1) Task.getDouble(bush, db.getN_Gui(),false);
+					if(db.getN_Gui()==db.getStartDouble()) Task.getDouble(bush,db.getN_Gui(),true);
 					}
 					
 				}else if(state ==0 &&s_0)
@@ -207,7 +199,7 @@ public class MyRobot {
 					{//#数据统计代码区
 					db.setN_Gui(db.getN_Gui()+1);
 					db.setSum_Gui(db.getSum_Gui()+1);
-					if(db.getN_Gui()>=double_gui)//记录双倍点数消耗
+					if(db.getN_Gui()>=db.getStartDouble())//记录双倍点数消耗
 						db.setCost_Double(db.getCost_Double()+4);
 					}
 					
@@ -216,14 +208,14 @@ public class MyRobot {
 					//判断是否移动后抓鬼，而不是因为屏幕变化导致的抓鬼错判
 					System.out.println("当前第"+db.getN_Gui()+"只鬼！");
 					
-					if(flag_send == 1){//发送抓鬼数量
+					if(db.isFlagSend()){//发送抓鬼数量
 					Method.await(bush, 1, 2);
 					ct.check(new PBean(543,680,240,230,217),true,3000);
 					Task.sendCount(bush, db.getSum_Gui());
 					}
 					//调用领双函数；
-					if(double_gui!=1&&db.getN_Gui()==1) Task.getDouble(bush, db.getN_Gui(),false);
-					if(db.getN_Gui()==double_gui) Task.getDouble(bush,db.getN_Gui(),true);
+					if(db.getStartDouble()!=1&&db.getN_Gui()==1) Task.getDouble(bush, db.getN_Gui(),false);
+					if(db.getN_Gui()==db.getStartDouble()) Task.getDouble(bush,db.getN_Gui(),true);
 					}
 					
 				}else if(state ==0 &&s_0)
