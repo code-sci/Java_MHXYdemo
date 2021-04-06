@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
+import java.util.Calendar;
 
 public class Task {
+	
 	/*#记录统计本次脚本数据：
 	 * @抓鬼总数；
 	 * @开双抓鬼数量；
@@ -17,7 +19,13 @@ public class Task {
 		float avg_time = (float)MyRobot.db.getSum_Time()/MyRobot.db.getSum_Gui();//保留小数处理；
 		avg_time = Float.parseFloat(new DecimalFormat("0.00").format(avg_time));
 		String fileName="F:\\桌面\\position.txt";
-		Method.writeToFile(fileName,"#本次脚本统计数据：(截止"+MyRobot.db.getStop_h()+":"+MyRobot.db.getStop_m()+"的最后一轮鬼)");
+		Calendar c = Calendar.getInstance();
+		int m = c.get(Calendar.MONTH);
+		int d = c.get(Calendar.DAY_OF_MONTH);
+		int h = c.get(Calendar.HOUR_OF_DAY);
+		int min = c.get(Calendar.MINUTE);
+		Method.writeToFile(fileName,"\n#本次脚本统计数据：(截止"+m+"月"+d+"日"+h+":"+min+")");
+		Method.writeToFile(fileName,"设定停止时间："+MyRobot.db.getStop_h()+":"+MyRobot.db.getStop_m());
 		Method.writeToFile(fileName,"抓鬼总数："+MyRobot.db.getSum_Gui());
 		Method.writeToFile(fileName,"消耗双倍点数："+MyRobot.db.getCost_Double());
 		Method.writeToFile(fileName,"抓鬼平均耗时："+avg_time+"s(仅供参考)");
