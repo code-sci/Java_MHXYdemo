@@ -135,7 +135,7 @@ public class MyRobot {
 				
 				//¸¨Öúµã¸üÐÂ
 				MyRobot.db.c_update(robot);
-			}
+			} 
 		});
 		
 		
