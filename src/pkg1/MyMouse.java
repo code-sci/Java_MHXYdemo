@@ -11,8 +11,6 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.Color;

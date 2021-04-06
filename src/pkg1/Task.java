@@ -7,6 +7,8 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 
 public class Task {
+	static Robot robot ;
+	static CheckThread ct;
 	
 	/*#记录统计本次脚本数据：
 	 * @抓鬼总数；
@@ -76,6 +78,8 @@ public class Task {
 		 Method.await(robot, 0.5, 1);
 		 System.out.println("脚本数据统计中...");
 		 Task.noteStatis();
+		 
+		 //清理
 		 
 		 Method.await(robot, 0.5, 1);
 		 System.out.println("=======进行场景挂机，脚本终止运行！=======");
