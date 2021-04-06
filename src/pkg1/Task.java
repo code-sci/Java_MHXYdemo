@@ -164,6 +164,7 @@ public class Task {
     		Method.await(robot,1,1.8);	
     		System.out.println("领取双倍点数成功！");
     	}
+   
     	
     	//清理屏幕
     	Method.await(robot,1,1.3);

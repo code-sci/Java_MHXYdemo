@@ -29,8 +29,8 @@ public class MyRobot {
 		System.out.println("请输入抓鬼开双轮次：（默认为8）");
 		MyRobot.db.setStartDouble(reader.nextInt());
 		System.out.println("请输入当前抓鬼轮次：（默认为1）");
-		MyRobot.db.setN_Gui(reader.nextInt()-1);
-		//减一因为会在进入战斗界面+1；
+		MyRobot.db.setN_Gui(reader.nextInt()-1);//-1是因为第一次进入抓鬼界面也会加一
+		
 		System.out.println("是否发送抓鬼总数：(1发0不发)");
 		MyRobot.db.setFlagSend(reader.nextInt()==1?true:false);
 		System.out.println("请输入程序停止时间：例如\"7:30\"");
@@ -71,9 +71,24 @@ public class MyRobot {
 					System.out.println("状态变更：战斗！=====");
 					{//#数据统计代码区
 						MyRobot.db.setN_Gui(MyRobot.db.getN_Gui()+1);
+						System.out.println("当前第"+db.getN_Gui()+"只鬼！");
 						MyRobot.db.setSum_Gui(MyRobot.db.getSum_Gui()+1);
 						if(MyRobot.db.getN_Gui()>=MyRobot.db.getStartDouble())//记录双倍点数消耗
 							MyRobot.db.setCost_Double(MyRobot.db.getCost_Double()+4);
+					}
+					
+					if(db.isFlagSend()){//发送抓鬼数量
+							Method.await(robot, 1, 2);
+							new CheckThread().check(new PBean(543,680,240,230,217),true,3000);
+							Task.sendCount(robot, db.getSum_Gui());
+							}
+					
+					
+					{//调用领双函数；
+					if(db.getStartDouble()!=1&&db.getN_Gui()==1) 
+						Task.getDouble(robot, db.getN_Gui(),false);
+					if(db.getN_Gui()==db.getStartDouble()) 
+						Task.getDouble(robot,db.getN_Gui(),true);
 					}
 				}else if(MyRobot.db.getState() ==0 &&MyRobot.db.isS_0())
 				{//静止
@@ -82,6 +97,7 @@ public class MyRobot {
 					
 					{//静止处理代码区;
 						//针对未处理的弹窗清理屏幕，并且修正游戏窗口为活动窗口，防止误判
+						
 						//静止持续5秒,并且已经达到停止时间；=>调用挂机；
 						if(MyRobot.db.getT_0()==5&&MyRobot.db.isIfStop())
 						{
@@ -126,9 +142,9 @@ public class MyRobot {
 					MyRobot.db.setT_1(MyRobot.db.getT_1()+1);
 					System.out.println("状态：移动持续"+MyRobot.db.getT_1()+"秒！");
 				}else if(MyRobot.db.isS_1()){
+					MyRobot.db.setState(1);
 					if(MyRobot.db.getSum_Gui()!=1)
 						MyRobot.db.setSum_Time(MyRobot.db.getSum_Time()+MyRobot.db.getT_2());//记录上次抓鬼时长,并跳过第一只鬼；
-					MyRobot.db.t_clear();
 					MyRobot.db.t_clear();
 					System.out.println("状态变更：移动！=====");
 				}
