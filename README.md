@@ -1,4 +1,6 @@
-# Java_MHXY
+# Java_MHXY  
+**【源码仅供Java交流学习，请勿用于商业盈利活动，如有功能需求或使用问题，请issue或者私聊】**
+
 Java实现梦幻西游手游自动通宵抓鬼
  
 MyRobot.jar 为已导出的jar包，可以通过JVM直接调用；
