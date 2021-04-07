@@ -10,6 +10,81 @@ public class Task {
 	static Robot robot ;
 	static CheckThread ct;
 	
+	//接受挖宝任务函数
+	static void getWaBao(Robot robot)
+	{
+		CheckThread ct = new CheckThread();
+		System.out.println("===开始接受宝图任务：");
+		Method.press2(robot,KeyEvent.VK_ALT,KeyEvent.VK_M);	//大地图
+		ct.check(new PBean(1398,277,231,68,44),true,3000);//大地图关闭按钮
+		
+		Method.click(robot,926,600,true);	//大地图---长安城
+		ct.check(new PBean(1398,277,231,68,44),false,3000);//大地图关闭按钮
+		
+		Method.press(robot,KeyEvent.VK_TAB);	//按键---小地图
+		ct.check(new PBean(1341,301,191,21,0),true,3000);//小地图关闭按钮
+		
+		Method.click(robot,1155,566,true);	//小地图---店小二
+		
+		ct.check(new PBean(1263,695,136,109,83), true, 1000*15);//检查[宝图任务]按钮
+		
+		Method.click(robot, 1263, 695, true);
+		Method.press(robot, KeyEvent.VK_ESCAPE);//清理屏幕
+		
+		Method.await(robot, 0.5, 1);
+		//任务追踪
+		if(new Color(251,242,28).equals(robot.getPixelColor(1288, 330)))
+			Method.click2(robot, 1288, 330);
+		else if(new Color(251,242,28).equals(robot.getPixelColor(1288, 416)))
+			Method.click2(robot, 1288, 416);
+		else
+			Method.click2(robot, 1288, 502);
+		
+		System.out.println("===宝图任务接受完毕，开始宝图战斗：");
+		MyRobot.db.setnBao(0);
+	}
+	
+	static void useWaBao(Robot robot)
+	{
+		CheckThread ct = new CheckThread();
+		System.out.println("===开始使用藏宝图进行挖宝：");
+		
+		Method.press2(robot,KeyEvent.VK_ALT,KeyEvent.VK_E);	//打开背包
+		ct.check(new PBean(1069,795,168,108,53),true,3000);//检查[背包界面]
+		Method.click(robot, 1258, 790, true);//整理背包
+		
+		//进行宝图检查
+		Color c_Bao = new Color(102,255,204);
+		int x = 1000;
+		int y = 400;
+		int i,j;
+		int x_Bao=0,y_Bao=0;
+		for(i=1;y<800;y+=80,i++)
+		{
+			for(j=1,x=1000;x<1400;x+=80,j++)
+			{
+				if(c_Bao.equals(robot.getPixelColor(x, y)))
+				{
+					System.out.println(i+"行"+j+"列发现藏宝图一张！");
+					x_Bao=x ; y_Bao=y;
+				}
+			}
+		}
+		
+		if(x_Bao!=0&&y_Bao!=0)
+		{
+			System.out.println("====开始挖宝！");
+			Method.click(robot, x_Bao, y_Bao,true);//单击藏宝图位置
+			ct.check(new PBean(847,622,148,93,37), true, 3000);
+			Method.click(robot, 847, 622, true);
+		}
+		
+		//===>自动移动到宝图位置，然后检查挖宝按钮
+	}
+		
+	
+	
+	
 	/*#记录统计本次脚本数据：
 	 * @抓鬼总数；
 	 * @开双抓鬼数量；

@@ -1,6 +1,7 @@
 package pkg1;
 
 import java.awt.AWTException;
+import java.awt.Color;
 import java.awt.Robot;
 
 public class Test {
@@ -8,7 +9,9 @@ public class Test {
 	{
 		Robot robot = new Robot();
 	
-		Task.getZhuagui(robot);
+		MyRobot.db = new DataBean();
+		Task.useWaBao(robot);
+		
 		
 		
 	}

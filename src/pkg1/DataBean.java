@@ -8,6 +8,7 @@ public class DataBean {
 	private int sumTime;
 	private int costDouble;
 	private int nGui;
+	private int nBao;
 	private int stopH;
 	private int stopM;
 	private int startDouble;
@@ -99,6 +100,14 @@ public class DataBean {
 	public int getT_0() {
 		return t_0;
 	}
+	public int getnBao() {
+		return nBao;
+	}
+
+	public void setnBao(int nBao) {
+		this.nBao = nBao;
+	}
+
 	public void setT_0(int t_0) {
 		this.t_0 = t_0;
 	}
