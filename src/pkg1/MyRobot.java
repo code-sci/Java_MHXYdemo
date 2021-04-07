@@ -1,6 +1,7 @@
 package pkg1;
 
 import java.awt.AWTException;
+import java.awt.Color;
 import java.awt.Robot;
 import java.util.Calendar;
 import java.util.Scanner;
@@ -56,6 +57,20 @@ public class MyRobot {
 					System.out.println("抓鬼脚本即将停止，本轮抓鬼结束后将进入挂机场景；");
 					MyRobot.db.setIfStop(true);
 				}
+				//抓鬼弹窗判断
+				if(new Color(154,110,66).equals(robot.getPixelColor(1108,519)))//判断弹窗字
+				 {
+					System.out.println("=======开始[弹窗]接受抓鬼任务=======");
+						
+					 Method.click(robot, 1051,595,true);//点击[确定]继续抓鬼--->跳转钟馗对话
+					 
+					 
+					 Task.getZhuagui(robot);//调用接受抓鬼任务
+					 
+						System.out.println("=======[弹窗]接收抓鬼任务完毕！=======");
+						
+						 MyRobot.db.setN_Gui(0);//第n_gui只鬼清零
+				 }
 				
 				//首先利用辅助点进行状态判断
 				MyRobot.db.s_update(robot);

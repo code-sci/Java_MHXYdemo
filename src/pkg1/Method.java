@@ -5,6 +5,10 @@ import java.awt.event.InputEvent;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 
 public class Method {
 	
@@ -100,4 +104,13 @@ public class Method {
 	       writer.close();
 	   } catch (IOException e) {e.printStackTrace();}
 	 }
+	
+	//剪切板复制函数
+	//将传入的字符串内容复制到剪切板
+    public static void setSysClipboardText(String writeMe) {  
+        Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();  
+        Transferable tText = new StringSelection(writeMe);  
+        clip.setContents(tText, null);  
+    } 
+	
 }
