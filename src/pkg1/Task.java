@@ -82,9 +82,6 @@ public class Task {
 		//===>自动移动到宝图位置，然后检查挖宝按钮
 	}
 		
-	
-	
-	
 	/*#记录统计本次脚本数据：
 	 * @抓鬼总数；
 	 * @开双抓鬼数量；
@@ -178,9 +175,7 @@ public class Task {
 			Method.click(robot, 1267,282, true);
 		ct.check(new PBean(1267,282,197,227,167), true, 3000);
 		
-		Method.drag(robot, 1333,332, 1333,576);//拖动任务追踪界面
-		Method.drag(robot, 1333,332, 1333,576);//拖动任务追踪界面
-		Method.await(robot, 0.5, 1);
+		
 		Method.press(robot,KeyEvent.VK_ESCAPE);
 		//抓鬼任务有时候位置不定
 		if(robot.getPixelColor(1455,338).equals(new Color(117,62,24)))
@@ -284,6 +279,10 @@ public class Task {
 		 
 		 //弹窗--是否领双?
 		 if(new Color(142,94,45).equals(robot.getPixelColor(1100,515)))
+			 Method.click(robot, 855,588,true);//[取消]
+		 
+		 //弹窗--三界奇缘
+		 if(new Color(151,107,61).equals(robot.getPixelColor(855,511)))
 			 Method.click(robot, 855,588,true);//[取消]
 		 
 		 //弹窗--是否继续抓鬼?

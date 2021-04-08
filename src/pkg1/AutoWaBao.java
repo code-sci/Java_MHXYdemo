@@ -16,7 +16,6 @@ public class AutoWaBao {
 		MyRobot.db = new DataBean();
 		Robot robot = new Robot();
 		Timer WaBaotimer = new Timer();
-		CheckThread ct = new CheckThread();
 		
 		//初始化点状态
 		MyRobot.db.c_update(robot);
@@ -31,6 +30,7 @@ public class AutoWaBao {
 				//检测挖宝按钮
 				if(new Color(108,49,10).equals(robot.getPixelColor(1290,794)))
 				{
+					MyRobot.db.setT_0(0);
 					Method.click(robot, 1290, 794, true);
 					MyRobot.db.setnBao(MyRobot.db.getnBao()+1);//挖宝计数+1
 				}
@@ -56,8 +56,8 @@ public class AutoWaBao {
 						{
 							Task.useWaBao(robot);
 						}
-						//静止超过5秒且宝图数不为0=》挖宝结束
-						if(MyRobot.db.getT_0()==5&&MyRobot.db.getnBao()!=0)
+						//静止超过10秒且宝图数不为0=》挖宝结束
+						if(MyRobot.db.getT_0()==10&&MyRobot.db.getnBao()!=0)
 						{
 							System.out.println("自动挖宝结束===共挖"+MyRobot.db.getnBao()+"张藏宝图！");
 							this.cancel();
