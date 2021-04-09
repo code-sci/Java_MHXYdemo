@@ -34,13 +34,23 @@ public class Task {
 		Method.await(robot, 0.5, 1);
 		//任务追踪
 		if(new Color(251,242,28).equals(robot.getPixelColor(1288, 330)))
+		{
 			Method.click2(robot, 1288, 330);
+			System.out.println("===宝图任务接受完毕，开始宝图战斗：");	
+		}
 		else if(new Color(251,242,28).equals(robot.getPixelColor(1288, 416)))
+		{
 			Method.click2(robot, 1288, 416);
-		else
+			System.out.println("===宝图任务接受完毕，开始宝图战斗：");	
+		}
+		else if(new Color(251,242,28).equals(robot.getPixelColor(1288, 502)))
+		{
 			Method.click2(robot, 1288, 502);
-		
-		System.out.println("===宝图任务接受完毕，开始宝图战斗：");
+			System.out.println("===宝图任务接受完毕，开始宝图战斗：");	
+		}
+		else 
+			System.out.println("未检测到宝图任务！开始检查背包是否有藏宝图：");
+			
 		MyRobot.db.setnBao(0);
 	}
 	
@@ -114,6 +124,7 @@ public class Task {
 		Method.click(robot,1219,515,true);	//接受[抓鬼任务]
 		Method.await(robot,2,3);	
 		
+		//弹窗--队伍不足五人
 		if(new Color(227,75,55).equals(robot.getPixelColor(900, 502)))
 		{
 			System.out.println("队伍存在异常，进行处理！");
@@ -165,12 +176,14 @@ public class Task {
 			Method.press(robot, KeyEvent.VK_ESCAPE);//关闭队伍界面；
 			
 			System.out.println("队伍处理完毕！继续抓鬼");
+			//组队完毕，重新调用接受抓鬼任务函数；
+			Task.zhuaGui(robot);
 		}
 		
 		Method.press(robot,KeyEvent.VK_ESCAPE);	//清理钟馗对话！
 		Method.await(robot,0.5,0.6);
 		
-		//任务追踪界面
+		//任务追踪界面（有时候右侧可能是组队追踪界面）
 		if(!(new Color(197,227,167).equals(robot.getPixelColor(1267,282))))
 			Method.click(robot, 1267,282, true);
 		ct.check(new PBean(1267,282,197,227,167), true, 3000);
@@ -208,7 +221,7 @@ public class Task {
 		ct.check(new PBean(1256,501,192,163,138), true,3000);//[帮派频道]
 		Method.click(robot,1256,501, true);
 		
-		ct.check(new PBean(1347,738,240,227,211),true, 1000*30);//等待30秒组人
+		ct.check(new PBean(1347,738,240,227,211),true, 1000*10);//等待10秒组人
 		
 	}
 	
