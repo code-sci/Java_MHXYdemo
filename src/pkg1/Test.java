@@ -10,7 +10,8 @@ public class Test {
 		Robot robot = new Robot();
 	
 		MyRobot.db = new DataBean();
-		Task.useWaBao(robot);
+		
+		Task.day_Chat(robot);
 		
 		
 		

@@ -35,7 +35,6 @@ public class FindTool {
 
 
 	public FindTool() {
-		// TODO Auto-generated constructor stub
 	}
 
 

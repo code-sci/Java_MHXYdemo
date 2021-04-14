@@ -7,8 +7,6 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 
 public class Task {
-	static Robot robot ;
-	static CheckThread ct;
 	
 	//接受挖宝任务函数
 	static void getWaBao(Robot robot)
@@ -33,6 +31,9 @@ public class Task {
 		
 		Method.await(robot, 0.5, 1);
 		//任务追踪
+		
+		Method.drag(robot, 1294, 352, 1294, 494);
+		Method.await(robot, 1, 2);
 		if(new Color(251,242,28).equals(robot.getPixelColor(1288, 330)))
 		{
 			Method.click2(robot, 1288, 330);
@@ -54,6 +55,7 @@ public class Task {
 		MyRobot.db.setnBao(0);
 	}
 	
+	//使用宝图函数
 	static void useWaBao(Robot robot)
 	{
 		CheckThread ct = new CheckThread();
@@ -87,11 +89,327 @@ public class Task {
 			Method.click(robot, x_Bao, y_Bao,true);//单击藏宝图位置
 			ct.check(new PBean(847,622,148,93,37), true, 3000);
 			Method.click(robot, 847, 622, true);
-		}
+		}else
+			{
+			MyRobot.db.setnBao(-1);
+			}
+		Method.press(robot,KeyEvent.VK_ESCAPE);
+		Method.press(robot,KeyEvent.VK_ESCAPE);
 		
 		//===>自动移动到宝图位置，然后检查挖宝按钮
 	}
 		
+	
+	//日常--帮派签到
+	static void day_BangPai(Robot robot)
+	{
+		System.out.println("===开始日常---帮派签到===");
+		CheckThread ct = new CheckThread();
+		
+		Method.press2(robot, KeyEvent.VK_ALT, KeyEvent.VK_B);//帮派界面
+		Method.checkClick(robot,new PBean(1410,607,146,107,72), true, true,1000*5);//点击福利
+		
+		ct.check(new PBean(597,318,128,86,61), true, 3000);//检查签到按钮
+		
+		if(!new Color(170,167,160).equals(robot.getPixelColor(1321, 347)))//判断是否签到
+			Method.click(robot, 1321, 347, true);
+		
+
+		//屏幕清理
+		Method.seeHP(robot);
+		System.out.println("#结束日常---帮派签到===");
+	}
+	
+	//日常--宠物祈福
+	static void day_PetPray(Robot robot)
+	{
+		System.out.println("===开始日常---宠物祈福===");
+		CheckThread ct = new CheckThread();
+		
+		Method.press2(robot, KeyEvent.VK_ALT, KeyEvent.VK_D);//福利界面
+		//打开刮刮乐
+		Method.checkClick(robot, new PBean(1228,787,234,173,80), true,true, 1000*5);
+		//祈福庭院
+		Method.checkClick(robot, new PBean(591,607,252,233,126), true,true, 1000*3);
+		//祈福按钮
+		Method.checkClick(robot,new PBean(1311,578,243,215,179), true,true, 1000*5);
+		//宝宝选择界面
+		Method.checkClick(robot,new PBean(802,399,248,225,187), true,true, 1000*5);
+		
+		Method.await(robot, 0.8, 1.2);//祈福等待
+		Method.click(robot, 955, 765, true);//确认祈福
+		Method.await(robot, 5, 8);//祈福等待
+		
+		//屏幕清理
+		Method.seeHP(robot);
+		System.out.println("#结束日常---宠物祈福===");
+	}
+	
+	
+	//日常--家园打扫休息
+	static void day_Home(Robot robot)
+	{
+		System.out.println("===开始日常---家园休息打扫===");
+		CheckThread ct = new CheckThread();
+		
+		//家园界面
+		Method.press2(robot, KeyEvent.VK_ALT, KeyEvent.VK_N);
+		Method.checkClick(robot,new PBean(1345,670,113,121,55), true,true, 1000*5);
+		
+		//打理
+		Method.checkClick(robot,new PBean(1286,876,242,201,81), true,true, 1000*5);
+		
+		//大扫除
+		Method.checkClick(robot,new PBean(1197,529,237,192,96), true,true, 1000*5);
+		
+		//确定大扫除
+		Method.checkClick(robot, new PBean(1054,626,72,48,30),true, true, 3000);
+		
+		//房间
+		Method.checkClick(robot, new PBean(1193,338,156,102,42),true, true, 3000);
+		
+		//卧室休息
+		Method.checkClick(robot, new PBean(609,419,159,113,76),true, true, 3000);
+
+		//检查休息按钮后点击
+		ct.check(new PBean(1050,792,236,181,85), true, 5000);
+		for(int i = 0;i<4;i++)
+		{
+			Method.await(robot, 0.3, 0.5);
+			Method.click(robot, 1050, 792, true);
+		}
+
+		//屏幕清理
+		Method.seeHP(robot);
+		System.out.println("#结束日常---家园休息打扫===");
+	}
+	
+	//日常---洛阳风月录
+	static void day_Chat(Robot robot)
+	{
+		System.out.println("===开始日常---洛阳风月录===");
+		CheckThread ct = new CheckThread();
+		
+		Method.press2(robot,KeyEvent.VK_ALT,KeyEvent.VK_E);	//打开背包
+		ct.check(new PBean(1069,795,168,108,53),true,3000);//检查[背包界面]
+		
+//		if(!new Color(245,233,215).equals(robot.getPixelColor(969, 364)))
+//			{
+//				Method.drag(robot, 1022,389, 1022, 603);//背包拉到最上方
+//				ct.check(new PBean(969, 364,245,233,215), true,1000*3);
+//			}
+		
+		Method.click(robot, 1258, 790, true);//整理背包
+		
+		//进行洛阳风月录检查
+		Color c_Book = new Color(255,170,170);
+		int x = 995;
+		int y = 380;
+		int i,j;
+		int x_Book=0,y_Book=0;
+		for(i=1;y<800;y+=80,i++)
+		{
+			for(j=1,x=995;x<1400;x+=80,j++)
+			{
+				if(c_Book.equals(robot.getPixelColor(x, y)))
+				{
+					System.out.println(i+"行"+j+"列发现洛阳风月录！");
+					x_Book=x ; y_Book=y;
+				}
+			}
+		}
+		
+		//===============第一个NPC===================
+		//调用对话
+		if(x_Book==0&&y_Book==0)
+			{
+				Method.seeHP(robot);
+				Task.day_GetChat(robot);
+			}
+		else
+			{
+				Method.click2(robot,x_Book,y_Book);
+				Method.click2(robot,x_Book,y_Book);
+			}
+		
+		Method.checkClick(robot, new PBean(761,463,242,225,204), true, true, 1000*5);//NPC1
+		
+		//屏幕清理
+		Method.seeHP(robot);
+				
+		//和他聊天
+		Method.checkClick(robot, new PBean(1208,577,242,215,180), true, true, 1000*10);
+		
+		//内容选择
+		Method.await(robot, 1, 2);
+		Method.checkClick(robot, new PBean(1196,692,242,215,184), true, true, 1000*10);
+		
+		//聊天点击
+		Method.await(robot, 1, 2);
+		while(!new Color(225,75,35).equals(robot.getPixelColor(1346, 167)))
+		{
+			Method.click(robot,1258,636, true);
+			Method.await(robot, 0.5, 0.8);
+		}
+		
+		
+		
+		//===============第二个NPC===================
+		//调用对话
+		if(x_Book==0&&y_Book==0)
+			Task.day_GetChat(robot);
+		else
+		{
+			Method.press2(robot,KeyEvent.VK_ALT,KeyEvent.VK_E);	//打开背包
+			ct.check(new PBean(1069,795,168,108,53),true,3000);//检查[背包界面]
+			Method.click(robot, 1258, 790, true);//整理背包
+				Method.click2(robot,x_Book,y_Book);
+				Method.click2(robot,x_Book,y_Book);
+		}
+		//NPC2
+		Method.checkClick(robot, new PBean(966,462,242,225,204), true, true, 1000*5);
+		
+		//屏幕清理
+		Method.seeHP(robot);
+		
+		//和他聊天
+		Method.checkClick(robot, new PBean(1208,577,242,215,180), true, true, 1000*10);
+		
+		//内容选择
+		Method.await(robot, 1, 2);
+		Method.checkClick(robot, new PBean(1196,692,242,215,184), true, true, 1000*10);
+		
+		//聊天内容
+		Method.await(robot, 1, 2);
+		while(!new Color(225,75,35).equals(robot.getPixelColor(1346, 167)))
+		{
+			Method.click(robot,1258,636, true);
+			Method.await(robot, 0.5, 0.8);
+		}
+		
+		
+		
+		//================第三个NPC===================
+		//调用对话
+		if(x_Book==0&&y_Book==0)
+			Task.day_GetChat(robot);
+		else
+		{
+			Method.press2(robot,KeyEvent.VK_ALT,KeyEvent.VK_E);	//打开背包
+			ct.check(new PBean(1069,795,168,108,53),true,3000);//检查[背包界面]
+			Method.click(robot, 1258, 790, true);//整理背包
+			Method.click2(robot,x_Book,y_Book);
+			Method.click2(robot,x_Book,y_Book);
+		}
+		//NPC3
+		Method.checkClick(robot, new PBean(1169,463,242,225,204), true, true, 1000*5);
+	
+		//屏幕清理
+		Method.seeHP(robot);
+		
+		//和他聊天
+		Method.checkClick(robot, new PBean(1208,577,242,215,180), true, true, 1000*10);
+		
+		//内容选择
+		Method.await(robot, 1, 2);
+		Method.checkClick(robot, new PBean(1196,692,242,215,184), true, true, 1000*10);
+		
+		//聊天内容
+		Method.await(robot, 1, 2);
+		while(!new Color(225,75,35).equals(robot.getPixelColor(1346, 167)))
+		{
+			Method.click(robot,1258,636, true);
+			Method.await(robot, 0.5, 0.8);
+		}
+		
+		System.out.println("#结束日常---洛阳风月录===");
+	}
+	
+	
+	//日常辅助--洛阳风月录打开
+	static void day_GetChat(Robot robot)
+	{
+		Method.press2(robot,KeyEvent.VK_ALT,KeyEvent.VK_M);	//打开地图
+		Method.checkClick(robot, new PBean(1103,494,64,55,52), true, true, 5000);//洛阳城
+		
+		new CheckThread().check(new PBean(479, 219, 135,89,51),true,1000*5);
+		
+		//屏幕清理
+		Method.seeHP(robot);
+		
+		Method.press(robot,KeyEvent.VK_TAB);	//打开小地图
+		Method.checkClick(robot, new PBean(1175,382,38,81,15), true, true, 5000);//洛阳城某
+		
+		Method.checkClick(robot, new PBean(1342,515,100,73,49), true, true, 1000*20);//了解一下
+		
+	}
+	
+	//日常--秘境降妖
+
+	static void day_Yao(Robot robot)
+	{
+		System.out.println("===开始日常---秘境降妖===");
+		CheckThread ct = new CheckThread();
+		//屏幕清理
+		Method.seeHP(robot);
+		
+		Method.press2(robot,KeyEvent.VK_ALT,KeyEvent.VK_G);	//战斗技能修改
+		Method.checkClick(robot, new PBean(1127,714,177,101,37), true, true, 5000);//挂机技能
+		Method.await(robot, 0.5, 1);
+		Method.click(robot, 1024,437,true);
+		
+		Method.await(robot, 0.5, 1);
+		if(!new Color(248,222,189).equals(robot.getPixelColor(916, 719)))
+			Method.click(robot, 916, 719, true);
+		
+		
+		Method.press2(robot,KeyEvent.VK_ALT,KeyEvent.VK_M);	//打开地图
+		Method.checkClick(robot, new PBean(1222,555,157,118,50), true, true, 5000);//东海湾
+		
+		ct.check(new PBean(1346,167,225,75,35), true,1000*5);//检查人物血条
+		
+		Method.press(robot, KeyEvent.VK_TAB);//小地图
+		Method.checkClick(robot, new PBean(875,575,71,183,70), true, true, 5000);//云游乐
+		
+		Method.checkClick(robot, new PBean(1290,515,132,105,79), true, true, 1000*10);//秘境降妖
+		
+		Method.checkClick(robot, new PBean(693,527,135,133,131), true, true, 1000*5);//第一关
+
+		Method.checkClick(robot, new PBean(999,690,237,191,96), true, true, 1000*3);//挑战
+		
+	
+		
+		//屏幕清理
+		Method.seeHP(robot);
+		
+		//System.out.println("===结束日常---秘境降妖===");
+	}
+
+	//日常--押镖
+	static void day_YaBiao(Robot robot)
+	{
+		System.out.println("===开始日常---押镖===");
+		Method.press2(robot, KeyEvent.VK_ALT, KeyEvent.VK_M);//大地图
+		Method.checkClick(robot, new PBean(923,603,230,136,26), true, true, 1000*5);
+		
+		//屏幕清理
+		Method.seeHP(robot);
+		
+		Method.press(robot, KeyEvent.VK_TAB);//小地图
+		Method.checkClick(robot, new PBean(678,618,64,161,57), true, true, 1000*3);//郑镖头
+		MyRobot.db.setnBiao(0);
+		
+		Method.press2(robot,KeyEvent.VK_ALT,KeyEvent.VK_Z);
+		new CheckThread().check(new PBean(1399,263,204,0,0), true,1000*3);//助战界面
+		
+		Method.click(robot, 1353, 331, true);//第一套阵容
+		
+		Method.press(robot,KeyEvent.VK_ESCAPE);//关闭助战
+		
+		
+	}
+	
+
 	/*#记录统计本次脚本数据：
 	 * @抓鬼总数；
 	 * @开双抓鬼数量；
@@ -277,7 +595,6 @@ public class Task {
 		//终止脚本运行；
 		 System.exit(0);
 	}
-	
 	
 	//#弹窗异常处理
 	static void clearScreen(Robot robot)

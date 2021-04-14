@@ -1,7 +1,9 @@
 package pkg1;
 
+import java.awt.Color;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
@@ -28,6 +30,18 @@ public class Method {
 		}
 //		System.out.println("点击("+x+","+y+")处；");
 	}
+	
+	
+	//检查点击(在检查到该点后点击
+	//*f1：期望结果  f2：是否偏移
+	static void checkClick(Robot robot ,PBean pb,boolean f1 ,boolean f2,int maxTime)
+	{
+		CheckThread ct = new CheckThread();
+		ct.check(pb, f1,maxTime );
+		Method.await(robot, 0.2, 0.3);
+		Method.click(robot, pb.getX(), pb.getY(), f2);
+	}
+	
 	
 	//双击函数
 	static void click2(Robot robot,int x ,int y)
@@ -105,6 +119,15 @@ public class Method {
 	   } catch (IOException e) {e.printStackTrace();}
 	 }
 	
+	static void seeHP(Robot robot)
+	{
+		while(!new Color(225,75,35).equals(robot.getPixelColor(1346, 167)))
+			{
+				Method.press(robot, KeyEvent.VK_ESCAPE);
+				Method.await(robot, 0.5, 0.8);
+			}
+	}
+	
 	//剪切板复制函数
 	//将传入的字符串内容复制到剪切板
     public static void setSysClipboardText(String writeMe) {  
@@ -112,5 +135,7 @@ public class Method {
         Transferable tText = new StringSelection(writeMe);  
         clip.setContents(tText, null);  
     } 
+    
+    
 	
 }

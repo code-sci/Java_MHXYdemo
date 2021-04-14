@@ -13,6 +13,8 @@ public class DataBean {
 	private int stopM;
 	private int startDouble;
 	private boolean flagSend;
+	private int nBiao;
+	
 	
 	private int state;
 	private int t_0,t_1,t_2,t_3;//t_0:¾²Ö¹£»t_1£ºÒÆ¶¯£»t_2£ºÕ½¶·£»t_3£ºÑºïÚ£»
@@ -70,6 +72,13 @@ public class DataBean {
 		this.s_0 = s_0;
 	}
 
+	public int getnBiao() {
+		return nBiao;
+	}
+
+	public void setnBiao(int nBiao) {
+		this.nBiao = nBiao;
+	}
 	public boolean isS_1() {
 		return s_1;
 	}
