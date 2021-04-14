@@ -15,5 +15,5 @@ exit
 
 rem 以下为启动Jar包代码
 echo 梦幻脚本启动！
-java -jar AutoWaBao.jar
+java -jar Queue.jar
 

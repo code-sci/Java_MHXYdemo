@@ -284,10 +284,10 @@ public class AutoDay {
 		Method.click(robot, 1022, 143, true);//活动窗口修正
 		
 		//日常=》宝图=》秘境=》押镖=》
-//		Task.day_BangPai(robot);
-//		Task.day_PetPray(robot);
-//		Task.day_Home(robot);
-//		Task.day_Chat(robot);
+		Task.day_BangPai(robot);
+		Task.day_PetPray(robot);
+		Task.day_Home(robot);
+		Task.day_Chat(robot);
 		
 		
 		//接受挖宝任务=》开始战斗；
